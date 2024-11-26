@@ -1,5 +1,5 @@
 const { google } = require("googleapis");
-const Receipt = require("../models/receipt.model");
+const Receipt = require("../services/receipt.service");
 const UserToken = require("../models/usertoken.model");
 const { parseEmailContent } = require("../utils/parseEmailContent.util"); // Function to parse email details
 const { throwError } = require("../utils/error.util");
@@ -33,8 +33,10 @@ oauth2Client.on("tokens", async (tokens) => {
 // Define a function to list emails
 async function checkForZelleEmails(auth) {
   console.log("Checking for Zelle emails");
-  const receipts = await Receipt.find({}, { emailId: 1 });
-  const emailIds = new Map(receipts.map((receipt) => [receipt.emailId, true]));
+  const receipts = await Receipt.getReceipts({}, { emailId: 1 });
+  const emailIds = new Map(
+    receipts.data?.map((receipt) => [receipt.emailId, true])
+  );
 
   const gmail = google.gmail({ version: "v1", auth });
   const res = await gmail.users.messages.list({
@@ -59,7 +61,7 @@ async function checkForZelleEmails(auth) {
       data.emailId = message.id;
 
       if (data) {
-        await saveToDatabase(data);
+        await Receipt.createReceipt(data);
         counter.toDB++;
       }
     }
@@ -85,12 +87,6 @@ const create = async (data) => {
     throwError("FAILED", 422, error.message, "0x000C00");
   }
 };
-
-// Save parsed data to MongoDB
-async function saveToDatabase(data) {
-  const receipt = new Receipt(data);
-  await receipt.save();
-}
 
 const POLLING_INTERVAL = process.env.POLLING_INTERVAL || 3600000;
 

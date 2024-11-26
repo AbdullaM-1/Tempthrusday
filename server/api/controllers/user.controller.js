@@ -5,7 +5,7 @@ const { imageCleanup } = require("../utils/imageCleanup.util");
 
 /**
  * @desc    Get user profile
- * @route   GET /api/user/profile
+ * @route   GET /api/users/profile
  * @access  Private/User
  */
 const getUserProfile = async (req, res, next) => {
@@ -35,7 +35,7 @@ const getUserProfile = async (req, res, next) => {
 
 /**
  * @desc    Update user profile
- * @route   PATCH /api/user/profile
+ * @route   PATCH /api/users/profile
  * @access  Private/User
  */
 const updateUserProfile = async (req, res, next) => {
@@ -95,7 +95,7 @@ const updateUserProfile = async (req, res, next) => {
 
 /**
  * @desc    Create a new user
- * @route   POST /api/user
+ * @route   POST /api/users
  * @access  Private/Admin
  */
 const createUser = async (req, res, next) => {
@@ -145,7 +145,7 @@ const createUser = async (req, res, next) => {
 
 /**
  * @desc    Get all users
- * @route   GET /api/user
+ * @route   GET /api/users
  * @access  Private/Admin
  */
 const getUsers = async (req, res, next) => {
@@ -184,7 +184,7 @@ const getUsers = async (req, res, next) => {
 
 /**
  * @desc    Get user profile
- * @route   GET /api/user/:id
+ * @route   GET /api/users/:id
  * @access  Private/Admin
  */
 const getUser = async (req, res, next) => {
@@ -214,7 +214,7 @@ const getUser = async (req, res, next) => {
 
 /**
  * @desc    Update user
- * @route   PATCH /api/user/:id
+ * @route   PATCH /api/users/:id
  * @access  Private/Admin
  */
 const updateUser = async (req, res, next) => {
@@ -273,7 +273,7 @@ const updateUser = async (req, res, next) => {
 
 /**
  * @desc    Delete user profile
- * @route   DELETE /api/user/:id
+ * @route   DELETE /api/users/:id
  * @access  Private/Admin
  */
 const deleteUser = async (req, res, next) => {
