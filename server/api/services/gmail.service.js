@@ -105,7 +105,7 @@ async function startPolling(exit = true) {
   };
 
   // Run the poll immediately
-  // await poll();
+  await poll();
 
   // Set up the interval
   setInterval(poll, POLLING_INTERVAL);

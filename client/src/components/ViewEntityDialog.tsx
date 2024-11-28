@@ -8,6 +8,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  DialogDescription,
 } from "@/components";
 import { LoaderCircleIcon } from "lucide-react";
 import { useAppDispatch, useAppState } from "@/hooks";
@@ -29,6 +30,7 @@ interface ViewEntityDialogProps {
   handleDialogOpenChange: (isOpen: boolean) => void;
   title: string;
   fetchFunction: (id: string) => any;
+  // clearFunction: () => any;
   dataSelector: (state: ReturnType<typeof useAppState>) => any;
   loadingSelector: (state: ReturnType<typeof useAppState>) => boolean;
   fields: Section[];
@@ -40,6 +42,7 @@ export const ViewEntityDialog: React.FC<ViewEntityDialogProps> = ({
   handleDialogOpenChange,
   title,
   fetchFunction,
+  // clearFunction,
   dataSelector,
   loadingSelector,
   fields,
@@ -55,6 +58,8 @@ export const ViewEntityDialog: React.FC<ViewEntityDialogProps> = ({
       dispatch(fetchFunction(id));
     }
   }, [dispatch, fetchFunction, id, isDialogOpen]);
+
+  // TODO: Implementation to clear after form close
 
   // Utility function to evaluate deep keys in data
   const getValueByAccessor = (obj: any, accessor: string | undefined) => {
@@ -117,6 +122,9 @@ export const ViewEntityDialog: React.FC<ViewEntityDialogProps> = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>
+            Viewing {title.toLowerCase()} with ID: {id}
+          </DialogDescription>
         </DialogHeader>
         {isLoading ? (
           <div className="flex justify-center items-center p-4">

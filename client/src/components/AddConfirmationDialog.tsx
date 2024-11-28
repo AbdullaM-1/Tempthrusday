@@ -25,23 +25,20 @@ import { createConfirmation } from "@/redux/store";
 import { useState } from "react";
 
 const confirmationSchema = z.object({
-  confirmation: z
-    .string()
-    .trim()
-    .min(1, { message: "Confirmation is required" }),
+  code: z.string().trim().min(1, { message: "Confirmation is required" }),
 });
 
 type ConfirmationFormInputs = z.infer<typeof confirmationSchema>;
 
 export function AddConfirmationDialog() {
   const dispatch = useAppDispatch();
-  const { authenticate } = useAppState();
+  const { authenticate, confirmations } = useAppState();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const form = useForm<ConfirmationFormInputs>({
     resolver: zodResolver(confirmationSchema),
     defaultValues: {
-      confirmation: "",
+      code: "",
     },
   });
 
@@ -71,7 +68,7 @@ export function AddConfirmationDialog() {
               className="grid gap-4 pt-4"
             >
               <FormField
-                name="confirmation"
+                name="code"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem className="grid items-center gap-4 space-y-0">
@@ -93,14 +90,14 @@ export function AddConfirmationDialog() {
                   <Button
                     type="button"
                     variant="secondary"
-                    disabled={authenticate.isCreating}
+                    disabled={confirmations.isCreating}
                   >
                     Close
                   </Button>
                 </DialogClose>
                 <LoadingButton
                   type="submit"
-                  isLoading={authenticate.isCreating}
+                  isLoading={confirmations.isCreating}
                 >
                   Create
                 </LoadingButton>

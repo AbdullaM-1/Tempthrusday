@@ -64,6 +64,8 @@ import { ConnectGoogleButton } from "@/components/ConnectGoogleButton";
 import { ReceiptTable } from "@/components/ReceiptTable";
 import { AddConfirmationDialog } from "@/components/AddConfirmationDialog";
 import { ViewEntityDialog } from "@/components/ViewEntityDialog";
+import { EditSellerDialog } from "@/components/EditSellerDialog";
+import { EditConfirmationDialog } from "@/components/EditConfirmationDialog";
 
 export {
   Avatar,
@@ -128,4 +130,6 @@ export {
   ReceiptTable,
   AddConfirmationDialog,
   ViewEntityDialog,
+  EditSellerDialog,
+  EditConfirmationDialog,
 };

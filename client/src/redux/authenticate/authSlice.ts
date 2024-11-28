@@ -8,6 +8,7 @@ import {
   fetchUsers,
   fetchUser,
   createUser,
+  updateUser,
 } from "@/redux/authenticate/operations";
 import { CookiesApi } from "@/utils";
 
@@ -136,6 +137,23 @@ const authSlice = createSlice({
       })
       .addCase(fetchUser.rejected, (state) => {
         state.isLoading = false;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.isUpdateLoading = true;
+      })
+      .addCase(updateUser.fulfilled, (state, { payload }) => {
+        state.isUpdateLoading = false;
+        state.error = null;
+        state.users.forEach((user, index) => {
+          if (user._id === payload.data._id) {
+            state.users[index] = payload.data;
+          }
+        });
+        state.foundUser = payload.data;
+      })
+      .addCase(updateUser.rejected, (state, { payload }) => {
+        state.isUpdateLoading = false;
+        state.error = payload;
       });
   },
 });

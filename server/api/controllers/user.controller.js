@@ -221,24 +221,37 @@ const updateUser = async (req, res, next) => {
   try {
     const userId = req.params.id;
 
-    const user = await User.getUserById(userId, { password: 1, avatar: 1 });
-    if (req.body.password) {
-      if (user.status === "FAILED") {
-        throwError(
-          user.status,
-          user.error.statusCode,
-          user.error.message,
-          user.error.identifier
-        );
-      }
+    const user = await User.getUserById(userId, {
+      email: 1,
+      username: 1,
+      avatar: 1,
+    });
 
-      const isPasswordCorrect = await bcrypt.compare(
-        req.body.oldPassword,
-        user.data.password
+    if (user.status === "FAILED") {
+      throwError(
+        user.status,
+        user.error.statusCode,
+        user.error.message,
+        user.error.identifier
+      );
+    }
+
+    if (
+      req.body.email !== user.data.email ||
+      req.body.username !== user.data.username
+    ) {
+      const emailExists = await User.checkUsernameAndEmailAvailability(
+        req.body.username !== user.data.username ? req.body.username : null,
+        req.body.email !== user.data.email ? req.body.email : null
       );
 
-      if (!isPasswordCorrect) {
-        throwError("FAILED", 401, "Incorrect Credentials", "0x001001");
+      if (emailExists.status === "FAILED") {
+        throwError(
+          emailExists.status,
+          emailExists.error.statusCode,
+          emailExists.error.message,
+          emailExists.error.identifier
+        );
       }
     }
 

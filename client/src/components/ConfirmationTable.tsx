@@ -258,24 +258,6 @@ export const ConfirmationTable: FC<ConfirmationTableProps> = () => {
                 }}
               >
                 View Confirmation
-                {/* <ViewEntityDialog
-                  title="Confirmation Details"
-                  triggerText=""
-                  fetchFunction={fetchConfirmation}
-                  dataSelector={(state) =>
-                    state.confirmations.foundConfirmation
-                  }
-                  loadingSelector={(state) => state.confirmations.isLoading}
-                  fields={[
-                    { accessorKey: "code", fieldName: "Code" },
-                    { accessorKey: "createdAt", fieldName: "Created At" },
-                    {
-                      accessorKey: "updatedAt",
-                      fieldName: "Last Updated At",
-                    },
-                  ]}
-                  id={confirmation._id}
-                /> */}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

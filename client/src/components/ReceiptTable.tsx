@@ -186,33 +186,6 @@ export const ReceiptTable: FC<ReceiptTableProps> = () => {
       header: "Memo",
     },
     {
-      id: "associatedRecipient",
-      header: "Associated Recipient",
-      cell: ({ row }) => {
-        const receipt = row.original;
-
-        return receipt.associatedRecipient ? (
-          <Button
-            onClick={() => {
-              setDialogState({
-                id: receipt.associatedRecipient,
-                title: "Recipient Details",
-                fetchFunction: fetchUser,
-                dataSelector: (state) => state.authenticate.foundUser,
-                loadingSelector: (state) => state.authenticate.isLoading,
-                fields: recipientFields,
-              });
-              setIsDialogOpen(true);
-            }}
-          >
-            View Recipient
-          </Button>
-        ) : (
-          <Label>N/A</Label>
-        );
-      },
-    },
-    {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => {

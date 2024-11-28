@@ -23,28 +23,17 @@ export interface LoginResponse extends BasicResponse<User> {
   tokens: Tokens;
 }
 
-export interface UpdateProfileResponse extends BasicResponse<User> {}
+export interface UserResponse extends BasicResponse<User> {}
 
-export interface UpdateUserResponse extends BasicResponse<User> {}
+export interface UsersResponse extends BasicResponse<User[]> {}
 
-export interface CreateUserResponse extends BasicResponse<User> {}
+export interface ReceiptResponse extends BasicResponse<Receipt> {}
 
-export interface FetchUserResponse extends BasicResponse<User> {}
+export interface ReceiptsResponse extends BasicResponse<Receipt[]> {}
 
-export interface FetchUsersResponse extends BasicResponse<User[]> {}
+export interface ConfirmationResponse extends BasicResponse<Confirmation> {}
 
-export interface FetchReceiptResponse extends BasicResponse<Receipt> {}
-
-export interface FetchReceiptsResponse extends BasicResponse<Receipt[]> {}
-
-export interface CreateConfirmationResponse
-  extends BasicResponse<Confirmation> {}
-
-export interface FetchConfirmationResponse
-  extends BasicResponse<Confirmation> {}
-
-export interface FetchConfirmationsResponse
-  extends BasicResponse<Confirmation[]> {}
+export interface ConfirmationsResponse extends BasicResponse<Confirmation[]> {}
 
 interface BasicState {
   isLoading: boolean;
@@ -80,6 +69,11 @@ export type User = {
 export type CreateUserValues = Pick<
   User,
   "username" | "name" | "phone" | "email"
+>;
+
+export type UpdateUserValues = Pick<
+  User,
+  "_id" | "username" | "name" | "phone" | "email"
 >;
 
 export type LogInValues = {
@@ -131,6 +125,7 @@ export type Receipt = {
 };
 
 export interface ConfirmationState extends BasicState {
+  isCreating: boolean;
   isUpdateLoading: boolean;
   isLoadingConfirmations: boolean;
   foundConfirmation: Confirmation | null;
@@ -140,10 +135,12 @@ export interface ConfirmationState extends BasicState {
 export type Confirmation = {
   _id: string;
   user: Pick<User, "_id" | "username" | "name" | "email" | "phone">;
-  confirmation: string;
+  code: string;
   associatedReceipt: { _id: string } | null;
   createdAt: string;
   updatedAt: string;
 };
 
-export type CreateConfirmationValues = Pick<Confirmation, "confirmation">;
+export type CreateConfirmationValues = Pick<Confirmation, "code">;
+
+export type UpdateConfirmationValues = Pick<Confirmation, "_id" | "code">;

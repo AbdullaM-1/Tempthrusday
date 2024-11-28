@@ -10,6 +10,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  EditSellerDialog,
   ViewEntityDialog,
 } from "@/components";
 import { useAppDispatch, useAppState } from "@/hooks";
@@ -41,8 +42,14 @@ export const UserTable: FC<UserTableProps> = () => {
   const { authenticate } = useAppState();
   const dispatch = useAppDispatch();
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [dialogState, setDialogState] = useState<DialogState | null>(null);
+  const [isViewEntityDialogOpen, setIsDialogOpen] = useState(false);
+  const [isEditSellerDialogOpen, setIsEditSellerDialogOpen] = useState(false);
+  const [viewEntityDialogState, setDialogState] = useState<DialogState | null>(
+    null
+  );
+  const [editSellerDialogState, setEditSellerDialogState] = useState<
+    string | null
+  >(null);
 
   const fetchPageData = useCallback(() => {
     dispatch(
@@ -122,7 +129,14 @@ export const UserTable: FC<UserTableProps> = () => {
               >
                 View Seller
               </DropdownMenuItem>
-              <DropdownMenuItem>Edit Seller</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  setEditSellerDialogState(user._id);
+                  setIsEditSellerDialogOpen(true);
+                }}
+              >
+                Edit Seller
+              </DropdownMenuItem>
               <DropdownMenuItem>Delete Seller</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -142,18 +156,23 @@ export const UserTable: FC<UserTableProps> = () => {
         onPaginationChange={handlePaginationChange}
         loading={authenticate.isLoadingUsers}
       />
-      {dialogState && (
+      {viewEntityDialogState && (
         <ViewEntityDialog
-          isDialogOpen={isDialogOpen}
+          isDialogOpen={isViewEntityDialogOpen}
           handleDialogOpenChange={handleDialogOpenChange}
-          title={dialogState.title}
-          fetchFunction={dialogState.fetchFunction}
-          dataSelector={dialogState.dataSelector}
-          loadingSelector={dialogState.loadingSelector}
-          fields={dialogState.fields}
-          id={dialogState.id!}
+          title={viewEntityDialogState.title}
+          fetchFunction={viewEntityDialogState.fetchFunction}
+          dataSelector={viewEntityDialogState.dataSelector}
+          loadingSelector={viewEntityDialogState.loadingSelector}
+          fields={viewEntityDialogState.fields}
+          id={viewEntityDialogState.id!}
         />
       )}
+      <EditSellerDialog
+        sellerId={editSellerDialogState}
+        isDialogOpen={isEditSellerDialogOpen}
+        setIsDialogOpen={setIsEditSellerDialogOpen}
+      />
     </div>
   );
 };

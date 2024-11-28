@@ -3,14 +3,13 @@ import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import {
   BasicPagination,
-  CreateUserResponse,
   CreateUserValues,
-  FetchUserResponse,
-  FetchUsersResponse,
+  UsersResponse,
   LogInValues,
   LoginResponse,
   Tokens,
-  UpdateProfileResponse,
+  UserResponse,
+  UpdateUserValues,
   User,
   UserUpdateValuesForUser,
 } from "@/d";
@@ -68,7 +67,7 @@ export const login = createAsyncThunk<
   }
 });
 
-export const fetchProfile = createAsyncThunk<FetchUserResponse>(
+export const fetchProfile = createAsyncThunk<UserResponse>(
   "profile",
   async (_, { rejectWithValue, getState }) => {
     const { authenticate } = getState() as AppState;
@@ -80,7 +79,7 @@ export const fetchProfile = createAsyncThunk<FetchUserResponse>(
     setAuthHeader(accessToken);
 
     try {
-      const response: AxiosResponse<FetchUserResponse> = await axios.get(
+      const response: AxiosResponse<UserResponse> = await axios.get(
         "api/users/profile"
       );
 
@@ -95,7 +94,7 @@ export const fetchProfile = createAsyncThunk<FetchUserResponse>(
 );
 
 export const updateProfile = createAsyncThunk<
-  UpdateProfileResponse,
+  UserResponse,
   UserUpdateValuesForUser
 >("updateProfile", async (updateUser, { rejectWithValue }) => {
   try {
@@ -109,7 +108,7 @@ export const updateProfile = createAsyncThunk<
       }
     });
 
-    const response: AxiosResponse<UpdateProfileResponse> = await axios.patch(
+    const response: AxiosResponse<UserResponse> = await axios.patch(
       `api/users/profile`,
       formData
     );
@@ -124,32 +123,32 @@ export const updateProfile = createAsyncThunk<
 });
 
 // -------------------------------- Admin Actions --------------------------------
-export const createUser = createAsyncThunk<
-  CreateUserResponse,
-  CreateUserValues
->("createUser", async (createUser, { rejectWithValue }) => {
-  try {
-    const response: AxiosResponse<CreateUserResponse> = await axios.post(
-      "api/users",
-      createUser
-    );
+export const createUser = createAsyncThunk<UserResponse, CreateUserValues>(
+  "createUser",
+  async (createUser, { rejectWithValue }) => {
+    try {
+      const response: AxiosResponse<UserResponse> = await axios.post(
+        "api/users",
+        createUser
+      );
 
-    toast.success("User created successfuly!");
+      toast.success("User created successfuly!");
 
-    return response.data;
-  } catch (error: any) {
-    toast.error(getErrorMessage(error.response?.data.error.message));
-    return rejectWithValue(error);
+      return response.data;
+    } catch (error: any) {
+      toast.error(getErrorMessage(error.response?.data.error.message));
+      return rejectWithValue(error);
+    }
   }
-});
+);
 
-export const fetchUsers = createAsyncThunk<FetchUsersResponse, BasicPagination>(
+export const fetchUsers = createAsyncThunk<UsersResponse, BasicPagination>(
   "fetchUsers",
   async ({ page, limit }, { rejectWithValue }) => {
     const url = `api/users?page=${page}&limit=${limit}`;
 
     try {
-      const response: AxiosResponse<FetchUsersResponse> = await axios.get(url);
+      const response: AxiosResponse<UsersResponse> = await axios.get(url);
 
       return response.data;
     } catch (error: any) {
@@ -158,12 +157,41 @@ export const fetchUsers = createAsyncThunk<FetchUsersResponse, BasicPagination>(
   }
 );
 
-export const fetchUser = createAsyncThunk<FetchUserResponse, string>(
+export const fetchUser = createAsyncThunk<UserResponse, string>(
   "fetchUser",
   async (id, { rejectWithValue }) => {
     try {
       const response = await axios.get(`api/users/${id}`);
+
       return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const updateUser = createAsyncThunk<UserResponse, UpdateUserValues>(
+  "updateUser",
+  async (user, { rejectWithValue }) => {
+    try {
+      const { _id, ...rest } = user;
+      const response = await axios.patch(`api/users/${_id}`, rest);
+      toast.success("User updated successfuly!");
+
+      return response.data;
+    } catch (error: any) {
+      toast.error(getErrorMessage(error.response?.data.error.message));
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteUser = createAsyncThunk<void, string>(
+  "deleteUser",
+  async (id, { rejectWithValue }) => {
+    try {
+      await axios.delete(`api/users/${id}`);
+      toast.success("User deleted successfuly!");
     } catch (error: any) {
       return rejectWithValue(error);
     }

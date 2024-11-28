@@ -26,7 +26,9 @@ export const Header: FC<HeaderProps> = () => {
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <div className="text-2xl font-bold">Zelle Project</div>
+        <div className="text-2xl font-bold">
+          <Link to={AppRoutes.dashboard}>Zelle Project</Link>
+        </div>
 
         {authenticate.isLoggedIn && authenticate.user ? (
           <DropdownMenu>
@@ -63,6 +65,9 @@ export const Header: FC<HeaderProps> = () => {
               )}
               {authenticate.user.role === "USER" && (
                 <>
+                  <DropdownMenuItem>
+                    <Link to={AppRoutes.receipts}>Receipts</Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem>
                     <Link to={AppRoutes.confirmations}>Confirmations</Link>
                   </DropdownMenuItem>

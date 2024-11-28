@@ -24,6 +24,8 @@ import {
   createUser,
   fetchUsers,
   fetchUser,
+  updateUser,
+  deleteUser,
 } from "@/redux/authenticate/operations";
 import saveNavigationReducer, {
   setRoute,
@@ -41,6 +43,8 @@ import {
   createConfirmation,
   fetchConfirmation,
   fetchConfirmations,
+  updateConfirmation,
+  deleteConfirmation,
 } from "@/redux/confirmations/operations";
 
 const { VITE_APP_BASE_URL } = import.meta.env;
@@ -83,8 +87,10 @@ export {
   clearUsers,
   updateProfile,
   createUser,
-  fetchUser,
   fetchUsers,
+  fetchUser,
+  updateUser,
+  deleteUser,
   clearFoundReceipt,
   clearReceipts,
   createConfirmation,
@@ -94,5 +100,7 @@ export {
   clearConfirmations,
   fetchConfirmation,
   fetchConfirmations,
+  updateConfirmation,
+  deleteConfirmation,
   setRoute,
 };

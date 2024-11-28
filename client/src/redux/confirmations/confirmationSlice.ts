@@ -1,11 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ConfirmationState } from "@/d";
 import {
+  createConfirmation,
   fetchConfirmation,
   fetchConfirmations,
+  updateConfirmation,
 } from "@/redux/confirmations/operations";
 
 const initialState: ConfirmationState = {
+  isCreating: false,
   isLoading: false,
   isUpdateLoading: false,
   isLoadingConfirmations: false,
@@ -27,6 +30,17 @@ const confirmationsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(createConfirmation.pending, (state) => {
+        state.isCreating = true;
+      })
+      .addCase(createConfirmation.fulfilled, (state, { payload }) => {
+        state.isCreating = false;
+        state.error = null;
+        state.confirmations.push(payload.data);
+      })
+      .addCase(createConfirmation.rejected, (state) => {
+        state.isCreating = false;
+      })
       .addCase(fetchConfirmations.pending, (state) => {
         state.isLoadingConfirmations = true;
       })
@@ -50,6 +64,20 @@ const confirmationsSlice = createSlice({
       })
       .addCase(fetchConfirmation.rejected, (state) => {
         state.isLoading = false;
+      })
+      .addCase(updateConfirmation.fulfilled, (state, { payload }) => {
+        state.isUpdateLoading = false;
+        state.error = null;
+        state.confirmations.forEach((confirmation, index) => {
+          if (confirmation._id === payload.data._id) {
+            state.confirmations[index] = payload.data;
+          }
+        });
+        state.foundConfirmation = payload.data;
+      })
+      .addCase(updateConfirmation.rejected, (state, { payload }) => {
+        state.isUpdateLoading = false;
+        state.error = payload;
       });
   },
 });

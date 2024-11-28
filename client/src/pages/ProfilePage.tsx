@@ -95,7 +95,7 @@ export const ProfilePage: FC<ProfilePageProps> = () => {
   return (
     <>
       <div className="flex justify-between">
-        <h1 className="text-2xl font-bold">Sellers</h1>
+        <h1 className="text-2xl font-bold">Profile</h1>
         {authenticate.user?.role === "ADMIN" && <ConnectGoogleButton />}
       </div>
       <div className="mt-8">

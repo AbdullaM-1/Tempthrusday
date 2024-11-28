@@ -208,10 +208,19 @@ const deleteUserById = async (userId, options = {}) => {
 // CheckUsernameAndEmailAvailability
 const checkUsernameAndEmailAvailability = async (username, email) => {
   try {
-    const user = await User.findOne({
-      $or: [{ username }, { email }],
-      isDeleted: false,
-    });
+    let user;
+
+    if (username && email) {
+      user = await User.findOne({
+        $or: [{ username }, { email }],
+        isDeleted: false,
+      });
+    } else {
+      const query = { isDeleted: false };
+      if (username) query.username = username;
+      if (email) query.email = email;
+      user = await User.findOne(query);
+    }
 
     if (user) {
       let duplicateFields = [];
