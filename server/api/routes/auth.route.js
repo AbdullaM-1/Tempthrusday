@@ -4,7 +4,8 @@ const router = express.Router();
 const Controller = require("../controllers/auth.controller");
 const validate = require("../middlewares/validateReq.middleware");
 const UserValidation = require("../validators/user.validator");
-const UserToken = require("../models/usertoken.model");
+const authenticate = require("../middlewares/authenticate.middleware");
+const Authorize = require("../middlewares/authorize.middlware");
 // const { uploadImage } = require("../middlewares/image.middleware");
 
 // // Route for registering user
@@ -19,12 +20,12 @@ router.get("/google", Controller.googleAuth);
 
 router.get("/google/callback", Controller.googleAuthCallback);
 
-router.get("/google/status", async (req, res) => {
-  const userToken = await UserToken.findOne({
-    email: process.env.CLIENT_EMAIL,
-  });
-  res.json({ isConnected: !!userToken });
-});
+router.get(
+  "/google/status",
+  authenticate,
+  Authorize.isAdmin,
+  Controller.googleAuthStatus
+);
 
 // Route for logging in user
 router.post(

@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const User = require("../services/user.service");
 const Gmail = require("../services/gmail.service");
+const UserToken = require("../models/usertoken.model");
 const { throwError } = require("../utils/error.util");
 const { isEmailOrUsername } = require("../utils/isEmailOrUsername.util");
 const { generateToken } = require("../utils/jwt.util");
@@ -165,9 +166,23 @@ const googleAuthCallback = async (req, res) => {
   res.redirect("http://localhost:5173");
 };
 
+/**
+ * @desc    Google Auth Status
+ * @route   GET /api/auth/google/status
+ * @access  Private/Admin
+ * @note    Checks if the Google Auth is connected
+ */
+const googleAuthStatus = async (req, res) => {
+  const userToken = await UserToken.findOne({
+    email: process.env.CLIENT_EMAIL,
+  });
+  res.json({ isConnected: !!userToken });
+};
+
 module.exports = {
   registerUser,
   loginUser,
   googleAuth,
   googleAuthCallback,
+  googleAuthStatus,
 };

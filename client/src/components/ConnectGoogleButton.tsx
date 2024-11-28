@@ -1,22 +1,44 @@
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { LoadingButton } from "@/components";
+import { CookiesApi } from "@/utils";
+import axios from "axios";
+
+const { VITE_APP_BASE_URL } = import.meta.env;
 
 export const ConnectGoogleButton = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/auth/google/status")
-      .then((response) => response.json())
-      .then((data) => setIsConnected(data.isConnected));
+    const accessToken = CookiesApi.getValue("accessToken"); // Bearer token for authorization header
+    if (accessToken) {
+      axios
+        .get(`${VITE_APP_BASE_URL}/api/auth/google/status`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((response) => {
+          setIsConnected(response.data.isConnected);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
   }, []);
 
   const handleConnect = () => {
-    window.location.href = "http://localhost:5000/api/auth/google";
+    window.location.href = `${VITE_APP_BASE_URL}/api/auth/google`;
   };
 
   return (
-    <Button onClick={handleConnect} disabled={isConnected}>
+    <LoadingButton
+      onClick={handleConnect}
+      disabled={isConnected || isLoading}
+      isLoading={isLoading}
+      className="min-w-32"
+    >
       {isConnected ? "Connected to Google" : "Connect Google Account"}
-    </Button>
+    </LoadingButton>
   );
 };
