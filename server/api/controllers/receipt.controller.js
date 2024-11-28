@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const Receipt = require("../services/receipt.service");
 const { throwError } = require("../utils/error.util");
 
@@ -9,10 +10,24 @@ const { throwError } = require("../utils/error.util");
 const getReceipts = async (req, res, next) => {
   try {
     const { page = 1, limit = 20, ...restQuery } = req.query;
+
+    const userId = req.user.role === "USER" ? req.user._id : null;
+
     const filter = { isDeleted: false, ...restQuery };
     const projection = { emailId: 0, isDeleted: 0 };
-    const count = await Receipt.countReceipts(filter);
-    const receipts = await Receipt.getReceipts(filter, projection, page, limit);
+    // const options = {
+    //   populate: { path: "associatedRecipient", select: "user -code" },
+    // };
+
+    const count = await Receipt.countReceiptsWithAssociation(filter, userId);
+
+    const receipts = await Receipt.getReceiptsWithAssociation(
+      filter,
+      projection,
+      page,
+      parseInt(limit),
+      userId
+    );
 
     if (receipts.status === "FAILED") {
       throwError(
@@ -48,10 +63,24 @@ const getReceipts = async (req, res, next) => {
 const getReceipt = async (req, res, next) => {
   try {
     const receiptId = req.params.id;
+    const userId = req.user.role === "USER" ? req.user._id : null;
 
-    const filter = { _id: receiptId, isDeleted: false };
+    const filter = {
+      _id: new mongoose.Types.ObjectId(receiptId),
+      isDeleted: false,
+    };
     const projection = { emailId: 0, isDeleted: 0 };
-    const receipt = await Receipt.getReceipt(filter, projection);
+    // const options = {
+    //   populate: { path: "associatedRecipient", select: "user -code" },
+    // };
+
+    const receipt = await Receipt.getReceiptsWithAssociation(
+      filter,
+      projection,
+      null,
+      null,
+      userId
+    );
 
     if (receipt.status === "FAILED") {
       throwError(

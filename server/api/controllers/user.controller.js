@@ -151,7 +151,7 @@ const createUser = async (req, res, next) => {
 const getUsers = async (req, res, next) => {
   try {
     const { page = 1, limit = 20, ...restQuery } = req.query;
-    const filter = { isDeleted: false, ...restQuery };
+    const filter = { isDeleted: false, role: "USER", ...restQuery };
     const projection = { password: 0, isDeleted: 0 };
     const count = await User.countUsers(filter);
     const users = await User.getUsers(filter, projection, page, limit);

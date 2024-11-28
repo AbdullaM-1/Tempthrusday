@@ -97,7 +97,7 @@ export const fetchProfile = createAsyncThunk<FetchUserResponse>(
 export const updateProfile = createAsyncThunk<
   UpdateProfileResponse,
   UserUpdateValuesForUser
->("updateUser", async (updateUser, { rejectWithValue }) => {
+>("updateProfile", async (updateUser, { rejectWithValue }) => {
   try {
     const { confirmPassword, ...rest } = updateUser;
 
@@ -162,7 +162,7 @@ export const fetchUser = createAsyncThunk<FetchUserResponse, string>(
   "fetchUser",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`users/public/${id}`);
+      const response = await axios.get(`api/users/${id}`);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error);

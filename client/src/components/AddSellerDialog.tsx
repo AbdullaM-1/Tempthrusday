@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
 import * as z from "zod";
 import {
   Button,
@@ -25,7 +24,7 @@ import { useAppDispatch, useAppState } from "@/hooks";
 import { createUser } from "@/redux/store";
 import { useState } from "react";
 
-const loginSchema = z.object({
+const addSellerSchema = z.object({
   username: z
     .string()
     .trim()
@@ -51,15 +50,15 @@ const loginSchema = z.object({
   email: z.string().trim().email().min(1, { message: "Email is required" }),
 });
 
-type LoginFormInputs = z.infer<typeof loginSchema>;
+type AddSellerFormInputs = z.infer<typeof addSellerSchema>;
 
 export function AddSellerDialog() {
   const dispatch = useAppDispatch();
   const { authenticate } = useAppState();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const form = useForm<LoginFormInputs>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<AddSellerFormInputs>({
+    resolver: zodResolver(addSellerSchema),
     defaultValues: {
       username: "",
       name: "",
@@ -68,10 +67,12 @@ export function AddSellerDialog() {
     },
   });
 
-  const onSubmit = (values: LoginFormInputs) => {
+  const onSubmit = (values: AddSellerFormInputs) => {
     dispatch(createUser(values)).then((res) => {
-      if (res.meta.requestStatus === "fulfilled") setIsOpen(false);
-      form.reset();
+      if (res.meta.requestStatus === "fulfilled") {
+        setIsOpen(false);
+        form.reset();
+      }
     });
   };
 

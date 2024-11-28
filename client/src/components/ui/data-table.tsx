@@ -58,7 +58,6 @@ export function DataTable<TData, TValue>({
       }
 
       const { pageIndex, pageSize } = newPaginationState;
-      console.log("Params:", { pageIndex, pageSize });
       onPaginationChange(pageIndex, pageSize); // Call the external handler
     },
 
@@ -66,7 +65,7 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  const renderSkeleton = () => (
+  const Skeleton = () => (
     <TableRow>
       {columns.map((_, index) => (
         <TableCell key={index}>
@@ -100,7 +99,9 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {loading
-              ? Array.from({ length: 5 }).map(() => renderSkeleton())
+              ? Array.from({ length: 5 }).map((_, index) => (
+                  <Skeleton key={index} />
+                ))
               : table.getRowModel().rows?.length
               ? table.getRowModel().rows.map((row) => (
                   <TableRow

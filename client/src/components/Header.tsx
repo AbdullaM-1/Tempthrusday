@@ -53,6 +53,19 @@ export const Header: FC<HeaderProps> = () => {
                   <DropdownMenuItem>
                     <Link to={AppRoutes.sellers}>Sellers</Link>
                   </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link to={AppRoutes.receipts}>Receipts</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link to={AppRoutes.confirmations}>Confirmations</Link>
+                  </DropdownMenuItem>
+                </>
+              )}
+              {authenticate.user.role === "USER" && (
+                <>
+                  <DropdownMenuItem>
+                    <Link to={AppRoutes.confirmations}>Confirmations</Link>
+                  </DropdownMenuItem>
                 </>
               )}
               <DropdownMenuItem onClick={() => dispath(logout())}>

@@ -4,7 +4,14 @@ import { AppRoutes } from "@/router";
 import { PrivateRoute, RestrictedRoute } from "@/hocs";
 import { useAppState, useRefresh } from "@/hooks";
 import { Header, NotificationContainer, LoadingScreen } from "@/components";
-import { LoginPage, Page404, SellersPage, ProfilePage } from "@/pages";
+import {
+  LoginPage,
+  Page404,
+  SellersPage,
+  ProfilePage,
+  ReceiptsPage,
+  ConfirmationsPage,
+} from "@/pages";
 
 function App() {
   useRefresh();
@@ -24,6 +31,7 @@ function App() {
               <PrivateRoute
                 redirectTo={AppRoutes.login}
                 component={<div>Dashboard Page</div>}
+                role=""
               />
             }
           />
@@ -42,6 +50,7 @@ function App() {
               <PrivateRoute
                 redirectTo={AppRoutes.login}
                 component={<ProfilePage />}
+                role=""
               />
             }
           />
@@ -51,6 +60,27 @@ function App() {
               <PrivateRoute
                 redirectTo={AppRoutes.login}
                 component={<SellersPage />}
+                role="ADMIN"
+              />
+            }
+          />
+          <Route
+            path={AppRoutes.receipts}
+            element={
+              <PrivateRoute
+                redirectTo={AppRoutes.login}
+                component={<ReceiptsPage />}
+                role=""
+              />
+            }
+          />
+          <Route
+            path={AppRoutes.confirmations}
+            element={
+              <PrivateRoute
+                redirectTo={AppRoutes.login}
+                component={<ConfirmationsPage />}
+                role=""
               />
             }
           />

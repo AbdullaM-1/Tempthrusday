@@ -60,7 +60,10 @@ import { LoadingScreen } from "@/components/LoadingScreen";
 import { NotificationContainer } from "@/components/NotificationContainer";
 import { AddSellerDialog } from "@/components/AddSellerDialog";
 import { UserTable } from "@/components/UserTable";
-import { ConnectGoogleButton } from "./ConnectGoogleButton";
+import { ConnectGoogleButton } from "@/components/ConnectGoogleButton";
+import { ReceiptTable } from "@/components/ReceiptTable";
+import { AddConfirmationDialog } from "@/components/AddConfirmationDialog";
+import { ViewEntityDialog } from "@/components/ViewEntityDialog";
 
 export {
   Avatar,
@@ -122,4 +125,7 @@ export {
   AddSellerDialog,
   UserTable,
   ConnectGoogleButton,
+  ReceiptTable,
+  AddConfirmationDialog,
+  ViewEntityDialog,
 };

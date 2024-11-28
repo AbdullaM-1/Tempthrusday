@@ -7,8 +7,6 @@ const {
   containeranalysis,
 } = require("googleapis/build/src/apis/containeranalysis");
 
-console.log("From Gmail Service:", process.env.REDIRECT_URI);
-
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
@@ -17,7 +15,7 @@ const oauth2Client = new google.auth.OAuth2(
 
 // Attach the tokens listener once
 oauth2Client.on("tokens", async (tokens) => {
-  console.log("Tokens received:", tokens);
+  console.log("Tokens refreshed:", tokens);
   if (tokens.refresh_token) {
     await UserToken.updateOne(
       { email: process.env.CLIENT_EMAIL },
@@ -43,8 +41,8 @@ async function checkForZelleEmails(auth) {
     userId: "me",
     // q: "from:contactabdullahmehdi@gmail.com",
     // q: "from:alerts@notify.wellsfargo.com subject:'You received money with Zelle(R)'",
-    // q: "from:a.sajjad72823@gmail.com subject:'You received money with Zelle(R)'",
-    q: "subject:'You received money with Zelle(R)'",
+    q: "from:a.sajjad72823@gmail.com subject:'You received money with Zelle(R)'",
+    // q: "subject:'You received money with Zelle(R)'",
   });
 
   const messages = res.data.messages || [];
@@ -107,7 +105,7 @@ async function startPolling(exit = true) {
   };
 
   // Run the poll immediately
-  await poll();
+  // await poll();
 
   // Set up the interval
   setInterval(poll, POLLING_INTERVAL);

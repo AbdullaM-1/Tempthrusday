@@ -33,6 +33,19 @@ export interface FetchUserResponse extends BasicResponse<User> {}
 
 export interface FetchUsersResponse extends BasicResponse<User[]> {}
 
+export interface FetchReceiptResponse extends BasicResponse<Receipt> {}
+
+export interface FetchReceiptsResponse extends BasicResponse<Receipt[]> {}
+
+export interface CreateConfirmationResponse
+  extends BasicResponse<Confirmation> {}
+
+export interface FetchConfirmationResponse
+  extends BasicResponse<Confirmation> {}
+
+export interface FetchConfirmationsResponse
+  extends BasicResponse<Confirmation[]> {}
+
 interface BasicState {
   isLoading: boolean;
   error: unknown;
@@ -97,3 +110,40 @@ export type SaveNavigationState = {
   saveRoute: string;
   haveModal?: boolean;
 };
+
+export interface ReceiptState extends BasicState {
+  isUpdateLoading: boolean;
+  isLoadingReceipts: boolean;
+  foundReceipt: Receipt | null;
+  receipts: Receipt[];
+}
+
+export type Receipt = {
+  _id: string;
+  senderName: string;
+  amount: number;
+  date: string;
+  confirmation: string;
+  memo?: string | null;
+  associatedRecipient: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export interface ConfirmationState extends BasicState {
+  isUpdateLoading: boolean;
+  isLoadingConfirmations: boolean;
+  foundConfirmation: Confirmation | null;
+  confirmations: Confirmation[];
+}
+
+export type Confirmation = {
+  _id: string;
+  user: Pick<User, "_id" | "username" | "name" | "email" | "phone">;
+  confirmation: string;
+  associatedReceipt: { _id: string } | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type CreateConfirmationValues = Pick<Confirmation, "confirmation">;

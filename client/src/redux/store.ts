@@ -28,6 +28,20 @@ import {
 import saveNavigationReducer, {
   setRoute,
 } from "./saveNavigation/saveNavigationSlice";
+import receiptsReducer, {
+  clearFoundReceipt,
+  clearReceipts,
+} from "@/redux/receipts/receiptsSlice";
+import { fetchReceipt, fetchReceipts } from "@/redux/receipts/operations";
+import confirmationsReducer, {
+  clearFoundConfirmation,
+  clearConfirmations,
+} from "@/redux/confirmations/confirmationSlice";
+import {
+  createConfirmation,
+  fetchConfirmation,
+  fetchConfirmations,
+} from "@/redux/confirmations/operations";
 
 const { VITE_APP_BASE_URL } = import.meta.env;
 
@@ -41,6 +55,8 @@ const persistConfig = {
 
 const reducer = combineReducers({
   authenticate: persistReducer(persistConfig, authenticateReducer),
+  receipts: persistReducer(persistConfig, receiptsReducer),
+  confirmations: persistReducer(persistConfig, confirmationsReducer),
   saveNavigation: persistReducer(persistConfig, saveNavigationReducer),
 });
 
@@ -69,5 +85,14 @@ export {
   createUser,
   fetchUser,
   fetchUsers,
+  clearFoundReceipt,
+  clearReceipts,
+  createConfirmation,
+  fetchReceipts,
+  fetchReceipt,
+  clearFoundConfirmation,
+  clearConfirmations,
+  fetchConfirmation,
+  fetchConfirmations,
   setRoute,
 };

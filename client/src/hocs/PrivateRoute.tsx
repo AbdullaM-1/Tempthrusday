@@ -6,19 +6,21 @@ import { RoutesType } from "@/router";
 type PrivateRouteProps = {
   component: JSX.Element;
   redirectTo: RoutesType;
-  role?: "ADMIN" | "USER";
+  role: "ADMIN" | "USER" | "";
 };
 
 export const PrivateRoute: FC<PrivateRouteProps> = ({
   component: Component,
   redirectTo = "/",
-  role = "USER",
+  role = "",
 }) => {
   const { authenticate } = useAppState();
+  
+  // Determine if the user should be redirected
   const shouldRedirect =
-    !authenticate.isLoggedIn &&
-    !authenticate.isRefreshing &&
-    !(authenticate.user?.role === role);
+    !authenticate.isLoggedIn ||  // If the user is not logged in
+    (role && authenticate.user?.role !== role) ||  // If role is provided and doesn't match
+    (!authenticate.isRefreshing && !authenticate.user?.role);  // If the user is refreshing and no role is set
 
   return shouldRedirect ? <Navigate to={redirectTo} /> : Component;
 };

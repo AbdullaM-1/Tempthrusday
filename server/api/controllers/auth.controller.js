@@ -122,7 +122,11 @@ const loginUser = async (req, res, next) => {
 const googleAuth = (req, res) => {
   const SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"];
 
-  console.log(process.env.REDIRECT_URI);
+  // Log the REDIRECT_URI
+  console.log(
+    "Google Auth Initialized with REDIRECT_URI:",
+    process.env.REDIRECT_URI
+  );
 
   const authUrl = Gmail.oauth2Client.generateAuthUrl({
     access_type: "offline",

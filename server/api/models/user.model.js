@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
-    address: { type: String, trim: true },
+    address: { type: String, trim: true, default: null },
     role: {
       type: String,
       required: true,

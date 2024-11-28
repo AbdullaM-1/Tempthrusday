@@ -16,7 +16,6 @@ router.get(
 router.get(
   "/:id",
   validate(CommonValidation.mogooseIdSchema, "PARAM"),
-  validate(CommonValidation.paginationSchema, "QUERY"),
   authenticate,
   Controller.getReceipt
 );

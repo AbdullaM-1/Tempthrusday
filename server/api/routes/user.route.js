@@ -61,10 +61,10 @@ router.get("/:id", authenticate, Authorize.isAdmin, Controller.getUser);
 // Route for updating user by id
 router.patch(
   "/:id",
+  validate(AdminValidation.updateSchema, "BODY"),
   authenticate,
   Authorize.isAdmin,
   uploadImage,
-  validate(AdminValidation.updateSchema, "BODY"),
   Controller.updateUser
 );
 

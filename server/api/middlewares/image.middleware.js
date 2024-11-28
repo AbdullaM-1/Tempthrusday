@@ -6,19 +6,19 @@ let times = 0;
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    console.log("3. Destination Path times", times);
+    // console.log("3. Destination Path times", times);
     cb(null, destinationPath);
   },
   filename: (req, file, cb) => {
-    console.log("4. File Name times", times);
+    // console.log("4. File Name times", times);
     try {
       fs.mkdirSync(destinationPath, { recursive: true });
       const filename = `${Date.now()}-${file.originalname}`;
 
-      console.log("Filename:", filename);
+      // console.log("Filename:", filename);
       cb(null, filename);
     } catch (error) {
-      console.error("Error in product image upload", error);
+      // console.error("Error in product image upload", error);
       cb(new Error("Error occurred"));
     }
   },
@@ -29,7 +29,7 @@ const limits = {
 };
 
 const fileFilter = (req, file, cb) => {
-  console.log("2. File Filter times", ++times);
+  // console.log("2. File Filter times", ++times);
   const allowedFileTypes = [
     "image/jpg",
     "image/jpeg",
@@ -50,11 +50,11 @@ const upload = multer({ storage, limits, fileFilter }).single("avatar");
 
 const uploadImage = (req, res, next) => {
   times = 0;
-  console.log("1. Upload Product Image");
+  // console.log("1. Upload Product Image");
   upload(req, res, function (error) {
     if (error) {
       if (error instanceof multer.MulterError) {
-        console.log("Error:", error);
+        // console.log("Error:", error);
         return res.status(400).json({
           status: "FAILED",
           error: { avatar: "Multer: " + error.message },
@@ -67,8 +67,8 @@ const uploadImage = (req, res, next) => {
       }
     }
 
-    console.log("File:", req.file);
-    console.log("Avatar Path:", req.file?.path);
+    // console.log("File:", req.file);
+    // console.log("Avatar Path:", req.file?.path);
     if (req.file) {
       req.body.avatar = req.file.path;
     }
