@@ -1,5 +1,23 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button, ButtonProps, buttonVariants } from "@/components/ui/button";
+import { Calendar, CalendarProps } from "@/components/ui/calendar";
+import {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
+  ChartStyle,
+  ChartConfig,
+} from "@/components/ui/chart";
 import { DataTable } from "@/components/ui/data-table";
 import {
   Dialog,
@@ -43,6 +61,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
@@ -66,6 +89,7 @@ import { AddConfirmationDialog } from "@/components/AddConfirmationDialog";
 import { ViewEntityDialog } from "@/components/ViewEntityDialog";
 import { EditSellerDialog } from "@/components/EditSellerDialog";
 import { EditConfirmationDialog } from "@/components/EditConfirmationDialog";
+import { DatePickerWithRange } from "@/components/DatePickerWithRange";
 
 export {
   Avatar,
@@ -73,6 +97,21 @@ export {
   AvatarFallback,
   Button,
   type ButtonProps,
+  Calendar,
+  type CalendarProps,
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
+  ChartStyle,
+  type ChartConfig,
   buttonVariants,
   DataTable,
   Dialog,
@@ -111,6 +150,9 @@ export {
   Input,
   Label,
   ModeToggle,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
   Skeleton,
   Table,
   TableHeader,
@@ -132,4 +174,5 @@ export {
   ViewEntityDialog,
   EditSellerDialog,
   EditConfirmationDialog,
+  DatePickerWithRange,
 };

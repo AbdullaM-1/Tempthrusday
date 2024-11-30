@@ -93,6 +93,10 @@ export const UserTable: FC<UserTableProps> = () => {
       header: "Email",
     },
     {
+      accessorKey: "commission",
+      header: "Commission",
+    },
+    {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => {

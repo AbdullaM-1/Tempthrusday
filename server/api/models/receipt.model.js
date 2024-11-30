@@ -7,6 +7,8 @@ const receiptSchema = new mongoose.Schema(
     amount: Number,
     date: Date,
     confirmation: String,
+    commission: { type: Number, default: 0 }, // percentage to calculate profit
+    status: { type: String, default: "pending" },
     memo: { type: String, default: null },
     isDeleted: { type: Boolean, default: false },
   },

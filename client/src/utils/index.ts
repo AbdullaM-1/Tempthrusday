@@ -4,6 +4,7 @@ import { ValidationMessagesService } from "./ValidationMessagesService";
 import { getErrorMessage } from "./getErrorMessage";
 import { getFirstLetterOfUserName } from "./getFirstLetterOfUserName";
 import { notify } from "./notify";
+import { Stringify } from "./Stringify";
 
 export {
   getFirstLetterOfUserName,
@@ -12,4 +13,5 @@ export {
   FormatterDate,
   ValidationMessagesService,
   notify,
+  Stringify,
 };

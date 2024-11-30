@@ -27,6 +27,7 @@ const userSchema = new mongoose.Schema(
       default: "USER",
       enum: ["USER", "ADMIN"],
     },
+    commission: { type: Number, default: 0 }, // commission in percentage only for "USER" role
     password: { type: String, required: true },
     isDeleted: { type: Boolean, default: false },
   },

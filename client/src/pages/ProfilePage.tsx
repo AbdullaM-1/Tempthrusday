@@ -96,7 +96,14 @@ export const ProfilePage: FC<ProfilePageProps> = () => {
     <>
       <div className="flex justify-between">
         <h1 className="text-2xl font-bold">Profile</h1>
-        {authenticate.user?.role === "ADMIN" && <ConnectGoogleButton />}
+        {authenticate.user?.role === "ADMIN" ? (
+          <ConnectGoogleButton />
+        ) : (
+          <h1 className="text-xl">
+            <span className="font-bold">Commission: </span>
+            {authenticate.user?.commission}%
+          </h1>
+        )}
       </div>
       <div className="mt-8">
         <Form {...form}>
@@ -284,7 +291,7 @@ export const ProfilePage: FC<ProfilePageProps> = () => {
                 type="submit"
                 isLoading={authenticate.isUpdateLoading}
               >
-                Upadate Profile
+                Update Profile
               </LoadingButton>
             </div>
           </form>

@@ -11,6 +11,7 @@ import {
   ProfilePage,
   ReceiptsPage,
   ConfirmationsPage,
+  DashboardPage,
 } from "@/pages";
 
 function App() {
@@ -30,7 +31,7 @@ function App() {
             element={
               <PrivateRoute
                 redirectTo={AppRoutes.login}
-                component={<div>Dashboard Page</div>}
+                component={<DashboardPage />}
                 role=""
               />
             }

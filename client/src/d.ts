@@ -62,6 +62,7 @@ export type User = {
   email: string;
   address?: string;
   role: string;
+  commission: number;
   createdAt: string;
   updatedAt: string;
 };
@@ -144,3 +145,5 @@ export type Confirmation = {
 export type CreateConfirmationValues = Pick<Confirmation, "code">;
 
 export type UpdateConfirmationValues = Pick<Confirmation, "_id" | "code">;
+
+export type Period = "daily" | "weekly" | "monthly" | "yearly";

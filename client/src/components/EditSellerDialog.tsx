@@ -47,6 +47,7 @@ const updateSellerSchema = z.object({
   name: z.string().trim().min(1, { message: "Name is required" }),
   phone: z.string().trim().min(1, { message: "Phone is required" }),
   email: z.string().trim().email().min(1, { message: "Email is required" }),
+  commission: z.number().int().min(0).max(100),
 });
 
 type EditSellerFormInputs = z.infer<typeof updateSellerSchema>;
@@ -195,7 +196,28 @@ export const EditSellerDialog: FC<EditSellerDialogProps> = ({
                     <FormMessage className="col-span-4" />
                   </FormItem>
                 )}
-              />
+                />
+
+                <FormField
+                  name="commission"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
+                      <FormLabel className="text-right">Commission</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="number"
+                          placeholder="Enter commission"
+                          className="col-span-3"
+                          onChange={(e) => field.onChange(parseInt(e.target.value, 10))}
+                        />
+                      </FormControl>
+                      <FormMessage className="col-span-4" />
+                    </FormItem>
+                  )}
+                />
+                
               <DialogFooter className="pt-4">
                 <DialogClose asChild>
                   <Button

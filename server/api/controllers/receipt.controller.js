@@ -161,9 +161,64 @@ const deleteReceipt = async (req, res, next) => {
   }
 };
 
+const getStats = async (req, res, next) => {
+  try {
+    // const userId = req.user.role === "USER" ? req.user._id : null;
+    const { period = "monthly", date } = req.query;
+
+    const userId = req.user.role === "USER" ? req.user._id : null;
+
+    let stats = await Receipt.getStats(period, date, userId);
+
+    if (stats.status === "FAILED") {
+      throwError(
+        stats.status,
+        stats.error.statusCode,
+        stats.error.message,
+        stats.error.identifier
+      );
+    }
+
+    res.status(200).json({
+      status: "SUCCESS",
+      data: stats.data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getStatsSummary = async (req, res, next) => {
+  try {
+    const today = new Date();
+
+    const userId = req.user.role === "USER" ? req.user._id : null;
+
+    let stats = await Receipt.getStatsSummary(today, userId);
+
+    if (stats.status === "FAILED") {
+      throwError(
+        stats.status,
+        stats.error.statusCode,
+        stats.error.message,
+        stats.error.identifier
+      );
+    }
+
+    res.status(200).json({
+      status: "SUCCESS",
+      data: stats.data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getReceipts,
   getReceipt,
   updateReceipt,
   deleteReceipt,
+  getStats,
+  getStatsSummary,
 };

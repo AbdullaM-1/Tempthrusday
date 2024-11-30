@@ -10,6 +10,7 @@ const createSchema = Joi.object({
   email: Joi.string()
     .pattern(new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/))
     .required(),
+  commission: Joi.number().min(0).max(100),
 });
 
 const updateSchema = Joi.object({
@@ -19,6 +20,7 @@ const updateSchema = Joi.object({
   name: Joi.string().trim().uppercase(),
   phone: Joi.string().trim(),
   email: Joi.string().pattern(new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/)),
+  commission: Joi.number().min(0).max(100),
 });
 
 module.exports = {
