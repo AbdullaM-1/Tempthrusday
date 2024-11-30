@@ -251,7 +251,10 @@ const getStatsPipeline = (timeFrame, inputDate, userId) => {
     },
   };
 
-  const filter = { isDeleted: false, date: { $gte: startDate.toJSDate() } };
+  const filter = {
+    isDeleted: false,
+    date: { $gte: startDate.toJSDate(), $lte: endDate.toJSDate() },
+  };
   const pipeline = [{ $match: filter }];
   if (userId) {
     pipeline.push(
@@ -466,7 +469,6 @@ const getStatsSummaryPipeline = (inputDate, userId) => {
 const getStatsSummary = async (inputDate, userId) => {
   try {
     const pipeline = getStatsSummaryPipeline(inputDate, userId);
-    console.log(JSON.stringify(pipeline, null, 2));
     const stats = await Receipt.aggregate(pipeline);
 
     const formattedStats = {
