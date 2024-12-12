@@ -1,6 +1,9 @@
-import { FC } from "react";
-import { Avatar, AvatarFallback, AvatarImage, Button } from "@/components";
+'use client'
 
+import { FC } from "react"
+import { Link } from "react-router-dom"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,82 +11,111 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { getFirstLetterOfUserName } from "@/utils";
-import { useAppDispatch, useAppState } from "@/hooks";
-import { logout } from "@/redux/store";
-import { Link } from "react-router-dom";
-import { AppRoutes } from "@/router";
+} from "@/components/ui/dropdown-menu"
+import { useAppDispatch, useAppState } from "@/hooks"
+import { logout } from "@/redux/store"
+import { AppRoutes } from "@/router"
+import { getFirstLetterOfUserName } from "@/utils"
 
-interface HeaderProps {}
+const { VITE_APP_BASE_URL } = import.meta.env
 
-const { VITE_APP_BASE_URL } = import.meta.env;
-
-export const Header: FC<HeaderProps> = () => {
-  const { authenticate } = useAppState();
-  const dispath = useAppDispatch();
+export const Header: FC = () => {
+  const { authenticate } = useAppState()
+  const dispatch = useAppDispatch()
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <div className="text-2xl font-bold">
-          <Link to={AppRoutes.dashboard}>Zelle Project</Link>
+    <header className="sticky top-0 z-50 w-full border-b bg-background">
+      <div className="container flex h-16 items-center px-4">
+        <div className="mr-4 flex items-center space-x-2">
+          <Link 
+            to={AppRoutes.UserYTdashboard} 
+            className="text-xl font-bold tracking-tight hover:text-primary/90"
+          >
+            VideoFirm
+          </Link>
         </div>
 
-        {authenticate.isLoggedIn && authenticate.user ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Avatar>
-                <AvatarImage
-                  src={`${VITE_APP_BASE_URL}/api/${authenticate.user.avatar}`}
-                />
-                <AvatarFallback>
-                  {getFirstLetterOfUserName(authenticate.user?.name)}
-                </AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>
-                Signed in as <br /> @{authenticate.user.username}
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Link to={AppRoutes.profile}>Profile</Link>
-              </DropdownMenuItem>
-              {authenticate.user.role === "ADMIN" && (
-                <>
-                  <DropdownMenuItem>
-                    <Link to={AppRoutes.sellers}>Sellers</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link to={AppRoutes.receipts}>Receipts</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link to={AppRoutes.confirmations}>Confirmations</Link>
-                  </DropdownMenuItem>
-                </>
-              )}
-              {authenticate.user.role === "USER" && (
-                <>
-                  <DropdownMenuItem>
-                    <Link to={AppRoutes.receipts}>Receipts</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link to={AppRoutes.confirmations}>Confirmations</Link>
-                  </DropdownMenuItem>
-                </>
-              )}
-              <DropdownMenuItem onClick={() => dispath(logout())}>
-                Logout
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : (
-          <Button>
-            <Link to={AppRoutes.login}>Login</Link>
-          </Button>
-        )}
+        <div className="ml-auto flex items-center space-x-4">
+          {authenticate.isLoggedIn && authenticate.user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage
+                      src={`${VITE_APP_BASE_URL}/api/${authenticate.user.avatar}`}
+                      alt={authenticate.user.name}
+                    />
+                    <AvatarFallback>
+                      {getFirstLetterOfUserName(authenticate.user?.name)}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{authenticate.user.name}</p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      @{authenticate.user.username}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link to={AppRoutes.profile} className="w-full">
+                    Profile
+                  </Link>
+                </DropdownMenuItem>
+                {authenticate.user.role === "ADMIN" && (
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link to={AppRoutes.sellers} className="w-full">
+                        Sellers
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to={AppRoutes.receipts} className="w-full">
+                        Receipts
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to={AppRoutes.confirmations} className="w-full">
+                        Confirmations
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
+                )}
+                {authenticate.user.role === "USER" && (
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link to={AppRoutes.receipts} className="w-full">
+                        Receipts
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to={AppRoutes.confirmations} className="w-full">
+                        Confirmations
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
+                )}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="cursor-pointer text-red-600 focus:text-red-600"
+                  onClick={() => dispatch(logout())}
+                >
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button asChild>
+              <Link to={AppRoutes.login}>Login</Link>
+            </Button>
+          )}
+        </div>
       </div>
     </header>
-  );
-};
+  )
+}
+

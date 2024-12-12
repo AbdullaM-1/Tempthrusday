@@ -11,6 +11,9 @@ export const AppRoutes = {
   create: "create",
   edit: "edit",
   notFound: "*",
+  VideoPlayerWithComments: "/VideoPlayerWithComments",
+  UserYTdashboard: "/ud",
+  OrderFlow:"/OrderFlow"
 } as const;
 
 export type RoutesType = (typeof AppRoutes)[keyof typeof AppRoutes];
